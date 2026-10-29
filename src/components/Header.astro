@@ -29,11 +29,9 @@ const links = [
         class="text-sm"
         transition:name={miniHero ? "conference-label" : undefined}
         transition:animate="initial"
-        >{
-          miniHero
-            ? "Learn MAPF / AAAI 2027 · Montréal, Canada"
-            : "Learn MAPF / AAAI 2027 · Montréal, Canada"
-        }</span
+        >Learn MAPF / AAAI 2027<span class="logo-location">
+          · Montréal, Canada</span
+        ></span
       ></a
     >
     <nav aria-label="Main navigation">
@@ -265,7 +263,11 @@ const links = [
       flex: 1;
       min-width: 0;
       font-size: clamp(0.8rem, 4vw, 1rem);
-      padding: 10px 8px;
+      padding: 10px 0;
+      white-space: nowrap;
+    }
+    .logo-location {
+      display: none;
     }
     .top-nav-wrap {
       display: grid;

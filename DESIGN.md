@@ -101,3 +101,5 @@ Single-page footer width: stretch the footer across the content shell again. Ret
 Single-page overview trial: restore TutorialOverview directly below the hero and before Schedule, Organisers and Materials. Include the separate introduction text/video cards, the original text-only perspectives and laptop/preparation guidance. Preserve the single-page section anchors and shared footer.
 
 Homepage overview scope: retain only the separate introduction text and MAPF video cards directly below the hero. Remove the perspectives grid and laptop/preparation card from the overview. Schedule, Organisers and Materials still follow.
+
+Mobile density: below 860px, reduce shared page inset to 8px and hero/card content inset to 20px. The mobile header (below 920px) reads “Learn MAPF / AAAI 2027” on one line, omitting the location suffix while preserving it on desktop. Keep 44px controls and existing menu tiles.

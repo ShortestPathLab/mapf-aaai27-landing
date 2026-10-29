@@ -121,6 +121,13 @@
     }
   }
 
+  @media (max-width: 859px) {
+    :root {
+      --page-inset: 8px;
+      --hero-content-inset: 20px;
+    }
+  }
+
   /* width */
   ::-webkit-scrollbar {
     @apply w-3;
