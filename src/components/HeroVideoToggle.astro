@@ -1,0 +1,41 @@
+<button
+  class="hero-video-toggle"
+  type="button"
+  hidden
+  aria-label="Pause background animation"
+  title="Pause background animation"
+>
+  <span class="material-symbols-outlined" aria-hidden="true">pause</span>
+</button>
+
+<style>
+  .hero-video-toggle {
+    position: absolute;
+    top: var(--hero-content-inset);
+    right: var(--hero-content-inset);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(var(--color-card), 0.78);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    color: rgb(var(--color-text-base));
+    transition: background-color 160ms ease-out;
+  }
+  .hero-video-toggle:hover {
+    background: rgba(var(--color-card), 0.9);
+  }
+  .hero-video-toggle[hidden] {
+    display: none;
+  }
+  @media (min-width: 920px) {
+    .hero-video-toggle {
+      top: auto;
+      bottom: var(--hero-content-inset);
+    }
+  }
+</style>

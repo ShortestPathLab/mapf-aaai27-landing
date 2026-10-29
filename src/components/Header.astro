@@ -1,0 +1,383 @@
+---
+import { SITE } from "@config";
+import { slugifyStr } from "@utils/slugify";
+export interface Props {
+  activeNav?: string;
+  heroNavigation?: boolean;
+  miniHero?: boolean;
+}
+const { activeNav, heroNavigation = false, miniHero = false } = Astro.props;
+const links = [
+  { label: "Home", path: "", href: "/" },
+  ...["Schedule", "Organisers", "Materials"].map(label => ({
+    label,
+    path: slugifyStr(label),
+    href: `/${slugifyStr(label)}`,
+  })),
+];
+---
+
+<header
+  class:list={{ "hero-navigation": heroNavigation, "mini-hero": miniHero }}
+  transition:name={miniHero ? "hero-banner" : undefined}
+  transition:animate="initial"
+>
+  <a id="skip-to-content" href="#main-content">Skip to content</a>
+  <div class="top-nav-wrap">
+    <a href="/" class="logo">
+      <span
+        class="text-sm"
+        transition:name={miniHero ? "conference-label" : undefined}
+        transition:animate="initial"
+        >{
+          miniHero
+            ? "Learn MAPF / AAAI 2027 · Montréal, Canada"
+            : "Learn MAPF / AAAI 2027 · Montréal, Canada"
+        }</span
+      ></a
+    >
+    <nav aria-label="Main navigation">
+      <button
+        class="hamburger-menu material-symbols-outlined"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="menu-items">menu</button
+      >
+      <div class="menu-reveal">
+        <ul
+          id="menu-items"
+          transition:name="primary-navigation"
+          transition:animate="initial"
+        >
+          {
+            links.map(link => (
+              <li>
+                <a
+                  href={link.href}
+                  aria-current={
+                    (activeNav ?? "") === link.path ? "page" : undefined
+                  }
+                  class={(activeNav ?? "") === link.path ? "active" : undefined}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </nav>
+    {
+      SITE.lightAndDarkMode && (
+        <button
+          id="theme-btn"
+          transition:name="theme-control"
+          transition:animate="initial"
+          type="button"
+          title="Toggle light and dark mode"
+          aria-label="Toggle light and dark mode"
+        >
+          <span class="material-symbols-outlined theme-sun" aria-hidden="true">
+            light_mode
+          </span>
+          <span class="material-symbols-outlined theme-moon" aria-hidden="true">
+            dark_mode
+          </span>
+        </button>
+      )
+    }
+  </div>
+</header>
+
+<style>
+  #skip-to-content {
+    @apply absolute -top-full left-4 z-50 bg-skin-accent px-3 py-2 text-skin-inverted focus:top-4;
+  }
+  .top-nav-wrap {
+    width: 100%;
+    max-width: var(--content-max-width);
+    margin-inline: auto;
+    padding-inline: var(--content-inset);
+    display: flex;
+    align-items: center;
+    gap: var(--bento-gap);
+    min-height: 64px;
+  }
+  .logo {
+    flex-shrink: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: rgb(var(--color-text-base));
+  }
+  nav {
+    margin-left: auto;
+  }
+  ul {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  nav a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 112px;
+    min-height: 36px;
+    padding: 6px 20px;
+    border-radius: 12px;
+    background: rgba(var(--color-text-base), 0.045);
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background-color 160ms ease-out;
+  }
+  nav a:hover,
+  nav a.active {
+    color: rgb(var(--color-accent));
+    background: rgba(var(--color-accent), 0.12);
+    text-decoration: none;
+  }
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    color: rgb(var(--color-text-base));
+    border-radius: 12px;
+    background: rgba(var(--color-text-base), 0.045);
+  }
+  .hamburger-menu {
+    display: none;
+  }
+  #theme-btn {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+  }
+  .mini-hero {
+    position: relative;
+    margin: var(--frame-inset) var(--content-inset) var(--bento-gap);
+    padding: var(--hero-content-inset);
+    border-radius: 16px;
+    background-color: #1a1413;
+    background-image:
+      linear-gradient(rgb(0 0 0 / 28%), rgb(0 0 0 / 28%)),
+      url("/images/burrow-hero.jpg");
+    background-size:
+      100% 100%,
+      max(100%, 177.65svh) auto;
+    background-position: center top;
+    background-repeat: no-repeat;
+  }
+  .mini-hero .top-nav-wrap {
+    padding: 0;
+    min-height: 36px;
+  }
+  .mini-hero .logo {
+    color: #fff;
+    min-width: 0;
+    flex-shrink: 1;
+  }
+  .mini-hero nav a,
+  .mini-hero button {
+    background: rgb(var(--color-card));
+  }
+  .mini-hero nav a:hover,
+  .mini-hero nav a.active {
+    background: rgb(var(--color-surface-accent));
+    color: rgb(var(--color-text-base));
+  }
+  .mini-hero #theme-btn:hover {
+    background: rgb(var(--color-surface-raised));
+  }
+  .mini-hero #skip-to-content:focus {
+    top: 8px;
+  }
+  @media (min-width: 920px) {
+    .mini-hero .top-nav-wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    }
+    .mini-hero nav {
+      margin-left: 0;
+    }
+    .mini-hero #theme-btn {
+      justify-self: end;
+    }
+  }
+  @media (max-width: 919px) {
+    .mini-hero {
+      padding: 20px;
+    }
+    .mini-hero .logo {
+      padding: 0;
+      max-width: none;
+    }
+  }
+  @media (min-width: 920px) {
+    .hero-navigation {
+      position: absolute;
+      left: calc(var(--page-inset) + var(--hero-content-inset));
+      right: calc(var(--page-inset) + var(--hero-content-inset));
+      top: calc(var(--frame-inset) + var(--hero-content-inset));
+      z-index: 2;
+    }
+    .hero-navigation .top-nav-wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      min-height: 0;
+      padding: 0;
+    }
+    .hero-navigation nav {
+      grid-column: 2;
+      margin-left: 0;
+    }
+    .hero-navigation #theme-btn {
+      grid-column: 3;
+      justify-self: end;
+    }
+    .hero-navigation .logo {
+      display: none;
+    }
+    .hero-navigation #skip-to-content {
+      position: fixed;
+      top: -100vh;
+    }
+    .hero-navigation #skip-to-content:focus {
+      top: 16px;
+    }
+    .hero-navigation nav a,
+    .hero-navigation #theme-btn {
+      background: rgb(var(--color-card));
+    }
+    .hero-navigation nav a:hover,
+    .hero-navigation nav a.active {
+      background: rgb(var(--color-surface-accent));
+      color: rgb(var(--color-text-base));
+    }
+    .hero-navigation #theme-btn:hover {
+      background: rgb(var(--color-surface-raised));
+    }
+  }
+  @media (max-width: 919px) {
+    .logo {
+      flex: 1;
+      min-width: 0;
+      font-size: clamp(0.8rem, 4vw, 1rem);
+      padding: 10px 8px;
+    }
+    .top-nav-wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 44px 44px;
+      grid-template-rows: minmax(64px, auto) auto;
+      gap: 0 8px;
+      min-height: 64px;
+    }
+    nav {
+      display: contents;
+    }
+    .hamburger-menu {
+      display: flex;
+      grid-column: 2;
+      grid-row: 1;
+    }
+    #theme-btn {
+      grid-column: 3;
+      grid-row: 1;
+      width: 44px;
+      height: 44px;
+    }
+    .menu-reveal {
+      display: grid;
+      grid-template-rows: 0fr;
+      order: 1;
+      grid-column: 1 / -1;
+      grid-row: 2;
+      width: 100%;
+      opacity: 0;
+      visibility: hidden;
+      padding-top: 0;
+      transition:
+        grid-template-rows 260ms cubic-bezier(0.22, 1, 0.36, 1),
+        padding-top 260ms cubic-bezier(0.22, 1, 0.36, 1),
+        padding-bottom 260ms cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 180ms ease-out,
+        visibility 0s 260ms;
+    }
+    .menu-reveal.open {
+      grid-template-rows: 1fr;
+      padding-top: 12px;
+      opacity: 1;
+      visibility: visible;
+      transition-delay: 0s;
+    }
+    .hero-navigation .menu-reveal.open {
+      padding-bottom: var(--page-inset);
+    }
+    .mini-hero .top-nav-wrap {
+      grid-template-rows: minmax(44px, auto) auto;
+    }
+    ul {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      min-height: 0;
+      overflow: hidden;
+      align-items: stretch;
+      gap: 8px;
+    }
+    nav a {
+      min-width: 0;
+      min-height: 72px;
+      height: 100%;
+      padding: 16px;
+      font-size: 1rem;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const button = document.querySelector<HTMLButtonElement>(".hamburger-menu");
+    const menu = document.querySelector<HTMLElement>(".menu-reveal");
+    if (!button || !menu) return;
+
+    const mobile = window.matchMedia("(max-width: 919px)");
+    const controller = new AbortController();
+    const { signal } = controller;
+    const setOpen = (open: boolean) => {
+      button.setAttribute("aria-expanded", String(open));
+      button.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      button.textContent = open ? "close" : "menu";
+      menu.classList.toggle("open", open);
+      menu.inert = mobile.matches && !open;
+    };
+
+    setOpen(false);
+    button.addEventListener(
+      "click",
+      () => {
+        setOpen(button.getAttribute("aria-expanded") !== "true");
+      },
+      { signal }
+    );
+    document.addEventListener(
+      "keydown",
+      event => {
+        if (
+          event.key === "Escape" &&
+          button.getAttribute("aria-expanded") === "true"
+        ) {
+          setOpen(false);
+          button.focus();
+        }
+      },
+      { signal }
+    );
+    mobile.addEventListener("change", () => setOpen(false), { signal });
+    document.addEventListener("astro:before-swap", () => controller.abort(), {
+      once: true,
+      signal,
+    });
+  });
+</script>

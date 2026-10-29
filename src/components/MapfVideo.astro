@@ -1,0 +1,131 @@
+<div class="mapf-demo">
+  <video
+    class="mapf-video"
+    data-src="/videos/mapf.mp4"
+    poster="/images/mapf-poster.webp"
+    width="1080"
+    height="1920"
+    muted
+    loop
+    playsinline
+    preload="none"
+    aria-label="Animation of multiple agents navigating a shared grid"></video>
+  <button
+    class="mapf-toggle"
+    type="button"
+    aria-label="Pause MAPF animation"
+    title="Pause MAPF animation"
+    hidden
+  >
+    <span class="material-symbols-outlined" aria-hidden="true">pause</span>
+  </button>
+</div>
+
+<style>
+  .mapf-demo {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+    aspect-ratio: 4 / 1;
+    background: #101012;
+  }
+  .mapf-video {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 0;
+  }
+  .mapf-toggle {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgb(var(--color-card));
+    color: rgb(var(--color-text-base));
+  }
+  .mapf-toggle[hidden] {
+    display: none;
+  }
+</style>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const video = document.querySelector<HTMLVideoElement>(".mapf-video");
+    const toggle = document.querySelector<HTMLButtonElement>(".mapf-toggle");
+    if (!video || !toggle) return;
+    const lifecycle = new AbortController();
+    const { signal } = lifecycle;
+    const motion = matchMedia("(prefers-reduced-motion: reduce)");
+    const connection = (
+      navigator as Navigator & {
+        connection?: EventTarget & { saveData?: boolean };
+      }
+    ).connection;
+    let inView = false;
+    let userPaused = false;
+    let disposed = false;
+
+    const shouldPlay = () =>
+      !disposed &&
+      inView &&
+      !userPaused &&
+      !motion.matches &&
+      !connection?.saveData &&
+      !document.hidden;
+    const sync = () => {
+      if (!shouldPlay()) {
+        video.pause();
+        return;
+      }
+      if (!video.getAttribute("src")) video.src = video.dataset.src!;
+      video
+        .play()
+        .then(() => {
+          if (shouldPlay()) toggle.hidden = false;
+          else video.pause();
+        })
+        .catch(() => {});
+    };
+    toggle.addEventListener(
+      "click",
+      () => {
+        userPaused = !userPaused;
+        const label = userPaused
+          ? "Play MAPF animation"
+          : "Pause MAPF animation";
+        toggle.setAttribute("aria-label", label);
+        toggle.title = label;
+        toggle.querySelector("span")!.textContent = userPaused
+          ? "play_arrow"
+          : "pause";
+        sync();
+      },
+      { signal }
+    );
+    motion.addEventListener("change", sync, { signal });
+    connection?.addEventListener("change", sync, { signal });
+    document.addEventListener("visibilitychange", sync, { signal });
+    const visibility = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      sync();
+    });
+    visibility.observe(video);
+    document.addEventListener(
+      "astro:before-swap",
+      () => {
+        disposed = true;
+        lifecycle.abort();
+        visibility.disconnect();
+        video.pause();
+      },
+      { once: true }
+    );
+  });
+</script>

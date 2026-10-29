@@ -1,0 +1,209 @@
+<img
+  class="hero-still"
+  src="/images/burrow-hero.jpg"
+  width="2560"
+  height="1441"
+  alt=""
+  fetchpriority="high"
+  loading="eager"
+  decoding="async"
+/>
+<video
+  class="hero-video"
+  muted
+  loop
+  playsinline
+  preload="none"
+  aria-hidden="true"
+  disablepictureinpicture
+  tabindex="-1"
+>
+  <source
+    data-src="/videos/hero-mobile.mp4"
+    media="(max-width: 919px)"
+    type="video/mp4"
+  />
+  <source data-src="/videos/hero-desktop.mp4" type="video/mp4" />
+</video>
+<canvas class="hero-grain" aria-hidden="true"></canvas>
+
+<style>
+  .hero-still,
+  .hero-video,
+  .hero-grain {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  .hero-still {
+    z-index: -4;
+  }
+  .hero-video {
+    z-index: -3;
+    opacity: 0;
+    transition: opacity 600ms ease-out;
+  }
+  .hero-video[data-ready="true"] {
+    opacity: 1;
+  }
+  .hero-grain {
+    z-index: -2;
+    opacity: 0;
+    mix-blend-mode: soft-light;
+    transition: opacity 600ms ease-out;
+  }
+  .hero-grain[data-ready="true"] {
+    opacity: var(--hero-grain-opacity, 0.5);
+  }
+  .hero-grain[data-grain-state="unavailable"] {
+    opacity: 0;
+    transition: none;
+  }
+</style>
+
+<script>
+  import { createFilmGrain } from "@utils/filmGrain";
+
+  document.addEventListener("astro:page-load", () => {
+    const hero = document.querySelector<HTMLElement>("#hero");
+    const image = hero?.querySelector<HTMLImageElement>(".hero-still");
+    const video = hero?.querySelector<HTMLVideoElement>(".hero-video");
+    const toggle = hero?.querySelector<HTMLButtonElement>(".hero-video-toggle");
+    const canvas = hero?.querySelector<HTMLCanvasElement>(".hero-grain");
+    if (!hero || !image || !video || !toggle || !canvas) return;
+    const grain = createFilmGrain(canvas);
+
+    const lifecycle = new AbortController();
+    const { signal } = lifecycle;
+    const motion = matchMedia("(prefers-reduced-motion: reduce)");
+    const connection = (
+      navigator as Navigator & {
+        connection?: EventTarget & { saveData?: boolean };
+      }
+    ).connection;
+    let stillSettled = image.complete;
+    let inView = true;
+    let userPaused = false;
+    let activated = false;
+    let starting = false;
+    let disposed = false;
+
+    const allowed = () => !motion.matches && !connection?.saveData && !disposed;
+    const shouldPlay = () =>
+      allowed() &&
+      stillSettled &&
+      inView &&
+      !userPaused &&
+      document.visibilityState === "visible";
+    const reveal = () => {
+      if (!shouldPlay()) return;
+      video.dataset.ready = "true";
+      toggle.hidden = false;
+      grain.start();
+    };
+    const play = async () => {
+      if (!shouldPlay() || starting) return;
+      starting = true;
+      if (!activated) {
+        video.querySelectorAll("source").forEach(source => {
+          if (source.dataset.src) source.src = source.dataset.src;
+        });
+        activated = true;
+        video.load();
+      }
+      try {
+        // Autoplay can be blocked: leave the progressive JPEG visible in that case.
+        await video.play();
+        if (!shouldPlay()) {
+          video.pause();
+          return;
+        }
+        if (typeof video.requestVideoFrameCallback === "function") {
+          video.requestVideoFrameCallback(reveal);
+        } else {
+          requestAnimationFrame(reveal);
+        }
+      } catch {
+        // The still image remains underneath if playback or decoding fails.
+      } finally {
+        starting = false;
+      }
+    };
+    const sync = () => {
+      if (!allowed()) {
+        video.pause();
+        grain.hide();
+        delete video.dataset.ready;
+        toggle.hidden = true;
+        if (activated) {
+          video
+            .querySelectorAll("source")
+            .forEach(source => source.removeAttribute("src"));
+          video.load();
+          activated = false;
+        }
+      } else if (shouldPlay()) {
+        void play();
+      } else {
+        video.pause();
+        grain.stop();
+      }
+    };
+    const onStillSettled = () => {
+      stillSettled = true;
+      sync();
+    };
+    image.addEventListener("load", onStillSettled, { once: true, signal });
+    image.addEventListener("error", onStillSettled, { once: true, signal });
+    video.addEventListener(
+      "error",
+      () => {
+        delete video.dataset.ready;
+        toggle.hidden = true;
+        grain.hide();
+      },
+      { signal }
+    );
+    video.addEventListener("pause", () => grain.stop(), { signal });
+    toggle.addEventListener(
+      "click",
+      () => {
+        userPaused = !userPaused;
+        const label = userPaused
+          ? "Play background animation"
+          : "Pause background animation";
+        toggle.setAttribute("aria-label", label);
+        toggle.title = label;
+        const icon = toggle.querySelector("span");
+        if (icon) icon.textContent = userPaused ? "play_arrow" : "pause";
+        sync();
+      },
+      { signal }
+    );
+    motion.addEventListener("change", sync, { signal });
+    connection?.addEventListener("change", sync, { signal });
+    document.addEventListener("visibilitychange", sync, { signal });
+    const visibility = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      sync();
+    });
+    visibility.observe(hero);
+    document.addEventListener(
+      "astro:before-swap",
+      () => {
+        disposed = true;
+        lifecycle.abort();
+        visibility.disconnect();
+        video.pause();
+        grain.destroy();
+      },
+      { once: true }
+    );
+    sync();
+  });
+</script>

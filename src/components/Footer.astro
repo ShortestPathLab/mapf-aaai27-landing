@@ -1,0 +1,67 @@
+---
+export interface Props {
+  noMarginTop?: boolean;
+}
+---
+
+<footer class="surface-panel footer-anchor">
+  <span class="footer-label font-medium">Learn MAPF / AAAI 2027</span>
+  <a href="https://aaai.org/conference/aaai/aaai-27/">
+    Go to the main conference
+    <span class="material-symbols-outlined" aria-hidden="true">north_east</span>
+  </a>
+</footer>
+
+<style>
+  footer.surface-panel {
+    @apply text-sm;
+    width: fit-content;
+    max-width: 100%;
+    align-self: flex-end;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px 32px;
+    padding: 8px;
+    margin-top: var(--bento-gap);
+    margin-bottom: var(--bento-gap);
+    margin-left: auto;
+    margin-right: 0;
+  }
+  .footer-label {
+    padding: 8px 12px;
+  }
+  a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    background: rgba(var(--color-text-base), 0.08);
+    border: 1px solid rgba(var(--color-text-base), 0.24);
+    color: rgb(var(--color-text-base));
+    font-weight: 500;
+    text-decoration: none;
+  }
+  a:hover {
+    background: rgba(var(--color-text-base), 0.15);
+    border-color: rgba(var(--color-text-base), 0.4);
+  }
+  a:focus-visible {
+    outline: 2px solid rgb(var(--color-text-base));
+    outline-offset: 3px;
+  }
+  a .material-symbols-outlined {
+    font-size: 18px;
+  }
+  @media (max-width: 540px) {
+    footer.surface-panel {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 4px;
+    }
+  }
+</style>

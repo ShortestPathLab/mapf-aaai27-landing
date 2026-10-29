@@ -1,0 +1,41 @@
+---
+import { ParallaxImage } from "./Card";
+import type { CollectionEntry } from "astro:content";
+
+type A = Partial<
+  CollectionEntry<"program">["data"][number]["events"][number]["events"][number]
+>;
+
+export interface Props extends A {}
+
+const { image, name, description, elevated, presenters, imageOffset } =
+  Astro.props;
+---
+
+<div class="animate-fadeIn min-w-[min(190px,100%)] flex-1">
+  <li
+    class={`flex-1 flex flex-col h-full list-none ${elevated && `${image ? "bg-skin-card" : "bg-skin-inverted/5"} rounded-lg`}`}
+  >
+    {
+      image && (
+        <ParallaxImage client:only="react" image={image} offset={imageOffset} />
+      )
+    }
+    <div
+      class=`flex flex-1 flex-col py-4 ${elevated ? "p-4" : image ? "pt-4" : ""}`
+    >
+      <h2 class={`mb-1 inline-block font-normal leading-6`}>{name}</h2>
+      <div class="whitespace-pre-line text-sm opacity-80">{description}</div>
+      {
+        !!presenters?.length && (
+          <div class="mt-6 flex flex-1 flex-wrap items-end gap-2">
+            <span class="text-xs font-medium">Presenter</span>
+            <span class="text-xs text-skin-base/80">
+              {presenters.join(", ")}
+            </span>
+          </div>
+        )
+      }
+    </div>
+  </li>
+</div>

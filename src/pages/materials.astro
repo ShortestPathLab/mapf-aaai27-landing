@@ -1,0 +1,130 @@
+---
+import BentoLayout from "@layouts/BentoLayout.astro";
+
+// Add each resource's href when it is released.
+const resources: { title: string; description: string; href?: string }[] = [
+  {
+    title: "Lab repository",
+    description:
+      "Prepared scenarios and configurations for running the experiments.",
+  },
+  {
+    title: "Setup guide and test scenario",
+    description:
+      "Installation steps, the versions used in the lab and a small example to check your setup.",
+  },
+  {
+    title: "Tutorial slides",
+    description:
+      "The talks on MAPF foundations, robot motion, scheduling and execution uncertainty.",
+  },
+  {
+    title: "Exercise notes",
+    description:
+      "Guided experiments, questions to explore and metrics to compare. Optional code-level extensions may also be included.",
+  },
+];
+---
+
+<BentoLayout title="Materials">
+  <Fragment slot="introduction">
+    <section>
+      <h1 class="mb-6 text-4xl">Materials</h1>
+      <p>
+        Find the resources to set up your laptop, follow the guided experiments
+        and revisit the tutorial afterwards. We’ll add links here as the
+        materials are released.
+      </p>
+    </section>
+    <section class="mt-6">
+      <h2 class="mb-4 text-2xl">Before the session</h2>
+      <p class="text-sm text-skin-base/80">
+        Bring a laptop and charger. Once the setup guide is available, follow it
+        and run the test scenario before arriving. You won’t need to implement a
+        solver.
+      </p>
+      <p class="mt-4 text-sm text-skin-base/80">
+        No prior MAPF experience is required. Familiarity with basic AI concepts
+        and some programming or command-line experience will help.
+      </p>
+    </section>
+  </Fragment>
+
+  <ul class="resource-grid" aria-label="Tutorial materials">
+    {
+      resources.map(resource => (
+        <li class="surface-panel resource-card">
+          <h2 class="mb-3 text-2xl">{resource.title}</h2>
+          <p class="text-sm text-skin-base/80">{resource.description}</p>
+          <div class="resource-status mt-6 text-sm font-medium">
+            {resource.href ? (
+              <a href={resource.href} class="underline underline-offset-4">
+                Open resource
+                <span
+                  class="material-symbols-outlined inline-icon"
+                  aria-hidden="true"
+                >
+                  arrow_forward
+                </span>
+              </a>
+            ) : (
+              <span class="text-skin-base/80">Link coming soon</span>
+            )}
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class="support-grid">
+    <section class="surface-panel">
+      <h2 class="mb-4 text-2xl">Tools and reference projects</h2>
+      <p class="text-sm text-skin-base/80">
+        The experiments will use the <a
+          href="https://github.com/MAPF-Competition/Start-Kit"
+          class="underline underline-offset-4"
+          >League of Robot Runners Start-Kit</a
+        > to run multi-agent scenarios and <a
+          href="https://github.com/MAPF-Competition/PlanViz"
+          class="underline underline-offset-4">PlanViz</a
+        > to inspect plans and execution traces.
+      </p>
+      <p class="mt-4 text-sm text-skin-base/80">
+        These are the upstream projects. Use our setup guide, once released, for
+        the versions and configuration used in the tutorial.
+      </p>
+    </section>
+    <section class="surface-panel">
+      <h2 class="mb-4 text-2xl">Using the lab materials</h2>
+      <p class="text-sm text-skin-base/80">
+        Work through the prepared examples alongside the exercise notes. Change
+        a configuration, inspect the resulting paths or execution traces, and
+        compare waiting, congestion, throughput and runtime. Bring your
+        observations and questions to the discussion after each experiment.
+      </p>
+    </section>
+  </div>
+</BentoLayout>
+
+<style>
+  .resource-grid,
+  .support-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--bento-gap);
+  }
+  .resource-card {
+    display: flex;
+    flex-direction: column;
+  }
+  .resource-status {
+    padding-top: 8px;
+    margin-top: auto;
+  }
+  @media (max-width: 640px) {
+    .resource-grid,
+    .support-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

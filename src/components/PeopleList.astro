@@ -1,0 +1,42 @@
+---
+import { getCollection } from "astro:content";
+import PersonCard from "./PersonCard.astro";
+
+export interface Props {
+  collection: string;
+}
+
+const { props } = Astro;
+
+const members = await getCollection("team");
+const order = ["Kevin Zheng", "Yue Zhang", "Jingjin Yu"];
+const items = members
+  .filter(c => !!c.data.tag?.includes?.(props.collection))
+  .sort((a, b) => order.indexOf(a.data.title) - order.indexOf(b.data.title));
+---
+
+<ul class="people-grid" aria-label="Tutorial organisers">
+  {
+    items.map(member => (
+      <li>
+        <PersonCard {...member.data} />
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .people-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--bento-gap);
+  }
+  li {
+    min-width: 0;
+  }
+  @container (max-width: 839px) {
+    .people-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

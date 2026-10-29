@@ -1,0 +1,60 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+type A = Partial<CollectionEntry<"team">["data"]>;
+
+export interface Props extends A {}
+
+const { image, title, description, affiliation, role } = Astro.props;
+const initials = title
+  ?.split(" ")
+  .map(part => part[0])
+  .join("");
+---
+
+<article class="surface-panel person-card">
+  <div class="flex items-start gap-4">
+    <div
+      class="avatar"
+      aria-hidden="true"
+      style={{
+        backgroundImage: image ? `url(${image})` : undefined,
+      }}
+    >
+      {!image && initials}
+    </div>
+    <div class="min-w-0">
+      <h2 class="mb-1 text-2xl">{title}</h2>
+      {role && <p class="text-sm font-medium text-skin-base/80">{role}</p>}
+    </div>
+  </div>
+  <p class="max-w-prose0 mt-4">{description}</p>
+  {
+    affiliation && (
+      <div class="mt-6 flex flex-wrap items-center gap-2 text-sm text-skin-base/80">
+        <span class="font-medium">Institution</span>
+        <span>{affiliation}</span>
+      </div>
+    )
+  }
+</article>
+
+<style>
+  .person-card {
+    height: 100%;
+  }
+  .avatar {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: rgba(var(--color-accent), 0.12);
+    background-size: cover;
+    background-position: center;
+    color: rgb(var(--color-accent));
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+</style>

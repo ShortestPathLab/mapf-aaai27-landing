@@ -1,0 +1,33 @@
+---
+import { SITE } from "@config";
+import Layout from "@layouts/Layout.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+---
+
+<Layout title={`404 Not Found | ${SITE.title}`}>
+  <Header slot="header" />
+
+  <main id="main-content" class="surface-panel">
+    <div class="not-found-wrapper">
+      <p>404</p>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  #main-content {
+    @apply mx-0 flex max-w-5xl flex-1 items-center justify-center;
+  }
+  .not-found-wrapper {
+    @apply flex flex-col items-center justify-center;
+  }
+  .not-found-wrapper h1 {
+    @apply text-5xl font-bold text-skin-accent;
+  }
+  .not-found-wrapper p {
+    @apply mt-4 text-2xl sm:text-3xl;
+  }
+</style>

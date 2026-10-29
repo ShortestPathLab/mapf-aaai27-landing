@@ -1,0 +1,156 @@
+---
+import { schedule } from "../tutorial";
+import { ParallaxImage } from "./Card";
+---
+
+<div data-program class="programme">
+  <div class="surface-panel date-column text-center sm:text-left">
+    <h2 class="date-label text-xl">Feb 16</h2>
+  </div>
+  <ol class="programme-events">
+    {
+      schedule.map(item => (
+        <li class="programme-row">
+          <div class="surface-panel time-card w-full">
+            <span class="sr-only">Elapsed time: </span>
+            <code class="time-label">{item.time}</code>
+          </div>
+          <article
+            class:list={[
+              "surface-panel programme-event animate-fadeIn",
+              { "with-cover": !!item.image },
+            ]}
+            style={
+              item.imageTint ? { "--cover-tint": item.imageTint } : undefined
+            }
+          >
+            {item.image && (
+              <ParallaxImage
+                client:load
+                image={item.image}
+                offset={item.imageOffset}
+                className="programme-cover"
+                aria-hidden="true"
+              />
+            )}
+            <div class="programme-copy">
+              <p class="mb-3 text-xs font-medium text-skin-base/80">
+                {item.kind}
+              </p>
+              <h3 class="mb-3 text-2xl">{item.title}</h3>
+              <p class="text-sm leading-relaxed text-skin-base/80">
+                {item.description}
+              </p>
+            </div>
+          </article>
+        </li>
+      ))
+    }
+  </ol>
+</div>
+
+<style>
+  .programme {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+    gap: var(--bento-gap);
+    align-items: stretch;
+  }
+  .date-column {
+    padding: 16px;
+    padding-right: 32px;
+  }
+  .date-label {
+    position: sticky;
+    top: 24px;
+  }
+  .programme-events {
+    display: grid;
+    gap: var(--bento-gap);
+  }
+  .programme-row {
+    display: grid;
+    grid-template-columns: 104px minmax(0, 1fr);
+    gap: var(--bento-gap);
+    align-items: stretch;
+  }
+  .time-card {
+    padding: 16px 12px;
+    text-align: center;
+  }
+  .time-label {
+    display: block;
+    position: sticky;
+    top: 24px;
+  }
+  code {
+    white-space: nowrap;
+    font-size: 0.875rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .programme-event {
+    min-width: 0;
+    padding: 0;
+  }
+  .programme-event.with-cover {
+    background-color: color-mix(
+      in srgb,
+      rgb(var(--color-card)) 88%,
+      var(--cover-tint)
+    );
+  }
+  .programme-event :global(.programme-cover) {
+    border-radius: 16px 16px 8px 8px;
+  }
+  .programme-copy {
+    padding: 24px;
+  }
+  .programme-enter {
+    animation: enter-fade-vertical 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @media (max-width: 859px) {
+    .programme {
+      grid-template-columns: 1fr;
+    }
+    .date-label {
+      position: static;
+    }
+  }
+  @media (max-width: 640px) {
+    .programme-event :global(.programme-cover) {
+      background-position: center !important;
+    }
+    .programme-row {
+      grid-template-columns: 1fr;
+      gap: var(--bento-gap);
+    }
+    .time-card {
+      justify-self: start;
+    }
+    .time-label {
+      position: static;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        entry.target.classList.toggle("programme-enter", entry.isIntersecting);
+        entry.target.classList.toggle("invisible", !entry.isIntersecting);
+      });
+    });
+
+    document
+      .querySelectorAll("[data-program] .animate-fadeIn")
+      .forEach(element => {
+        observer.observe(element);
+      });
+    document.addEventListener(
+      "astro:before-swap",
+      () => observer.disconnect(),
+      { once: true }
+    );
+  });
+</script>

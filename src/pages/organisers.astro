@@ -1,0 +1,23 @@
+---
+import PeopleList from "@components/PeopleList.astro";
+import BentoLayout from "@layouts/BentoLayout.astro";
+---
+
+<BentoLayout title="Organisers">
+  <Fragment slot="introduction">
+    <section>
+      <h1 class="mb-6 text-4xl">Organisers</h1>
+      <p>
+        Our presenter team brings together Kevin Zheng, Yue Zhang and Jingjin Yu
+        to guide you through the talks, hands-on experiments and discussions.
+      </p>
+    </section>
+    <section class="mt-6">
+      <h2 class="mb-4 text-2xl">Contact the organisers</h2>
+      <p class="text-sm text-skin-base/80">
+        A contact for tutorial enquiries will be added here.
+      </p>
+    </section>
+  </Fragment>
+  <PeopleList collection="Organisers" />
+</BentoLayout>

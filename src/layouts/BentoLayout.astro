@@ -1,0 +1,88 @@
+---
+import Footer from "@components/Footer.astro";
+import Header from "@components/Header.astro";
+import { SITE } from "@config";
+import { slugifyStr } from "@utils/slugify";
+import Layout from "./Layout.astro";
+
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+
+<Layout title={`${title} | ${SITE.title}`} fullWidth fillContent>
+  <Header slot="header" activeNav={slugifyStr(title)} miniHero />
+  <main
+    id="main-content"
+    class="bento-page viewport-content enter-fade-vertical"
+  >
+    <div class="bento-introduction">
+      <section class="surface-panel bento-title-card">
+        <div class="bento-title-content">
+          <slot name="introduction" />
+        </div>
+      </section>
+    </div>
+    <div class="bento-content">
+      <slot />
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .bento-page {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    gap: var(--bento-gap);
+    flex: 1;
+    align-items: stretch;
+  }
+  .bento-introduction,
+  .bento-content {
+    display: grid;
+    gap: var(--bento-gap);
+    min-width: 0;
+  }
+  .bento-introduction {
+    position: sticky;
+    top: 24px;
+    align-self: stretch;
+  }
+  .bento-title-card {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .bento-title-content {
+    position: sticky;
+    bottom: 40px;
+    margin-top: auto;
+  }
+  .bento-content {
+    align-content: stretch;
+    container-type: inline-size;
+  }
+  .bento-page :global(.surface-panel) {
+    padding: 24px;
+  }
+  .bento-page :global(p) {
+    line-height: 1.7;
+  }
+  @media (max-width: 999px) {
+    .bento-page {
+      grid-template-columns: 1fr;
+    }
+    .bento-introduction {
+      position: static;
+      height: auto;
+    }
+    .bento-title-card {
+      min-height: auto;
+    }
+    .bento-title-content {
+      position: static;
+    }
+  }
+</style>
