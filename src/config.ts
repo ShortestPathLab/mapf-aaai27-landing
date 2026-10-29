@@ -9,7 +9,7 @@ export const SITE: Site = {
   author: "Kevin Zheng, Yue Zhang and Jingjin Yu",
   desc: "A half-day hands-on MAPF lab at AAAI 2027: explore path planning, robot motion, task scheduling and execution uncertainty.",
   title: "Hands-on Multi-Agent Path Finding and Emerging Trends",
-  ogImage: "og.png",
+  ogImage: "images/landing-social-preview.jpg",
   lightAndDarkMode: true,
   postPerPage: 10,
   scheduledPostMargin: 15 * 60 * 1000,

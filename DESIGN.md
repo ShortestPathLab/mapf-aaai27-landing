@@ -105,3 +105,5 @@ Homepage overview scope: retain only the separate introduction text and MAPF vid
 Mobile density: below 860px, reduce shared page inset to 8px and hero/card content inset to 20px. The mobile header (below 920px) reads “Learn MAPF / AAAI 2027” on one line, omitting the location suffix while preserving it on desktop. Keep 44px controls and existing menu tiles.
 
 Mobile footer alignment: at 540px and below, stack the label and conference button, center both and use a 16px gap. Keep the full-width footer surface and shared card padding.
+
+Social preview: use `public/images/landing-social-preview.jpg`, a 1200×630 screenshot of the actual dark-mode homepage hero, captured with reduced motion after fonts and the still loaded. SITE.ogImage points to this screenshot for Open Graph and Twitter previews instead of the generated typographic graphic.
