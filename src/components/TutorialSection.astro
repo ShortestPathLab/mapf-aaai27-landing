@@ -1,0 +1,73 @@
+---
+interface Props {
+  id: string;
+  title: string;
+}
+const { id, title } = Astro.props;
+---
+
+<section id={id} class="tutorial-section" aria-label={title} tabindex="-1">
+  <div class="bento-introduction">
+    <section class="surface-panel bento-title-card">
+      <div class="bento-title-content"><slot name="introduction" /></div>
+    </section>
+  </div>
+  <div class="bento-content"><slot /></div>
+</section>
+
+<style>
+  .tutorial-section {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    gap: var(--bento-gap);
+    padding: 0;
+    scroll-margin-top: var(--page-inset);
+    align-items: stretch;
+  }
+  .bento-introduction,
+  .bento-content {
+    display: grid;
+    gap: var(--bento-gap);
+    min-width: 0;
+  }
+  .bento-introduction {
+    position: sticky;
+    top: 24px;
+    align-self: stretch;
+  }
+  .bento-title-card {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .bento-title-content {
+    position: sticky;
+    bottom: 40px;
+    margin-top: auto;
+  }
+  .bento-content {
+    align-content: stretch;
+    container-type: inline-size;
+  }
+  .tutorial-section :global(.surface-panel) {
+    padding: 24px;
+  }
+  .tutorial-section :global(p) {
+    line-height: 1.7;
+  }
+  @media (max-width: 999px) {
+    .tutorial-section {
+      grid-template-columns: 1fr;
+    }
+    .bento-introduction {
+      position: static;
+      height: auto;
+    }
+    .bento-title-card {
+      min-height: auto;
+    }
+    .bento-title-content {
+      position: static;
+    }
+  }
+</style>

@@ -8,11 +8,11 @@ export interface Props {
 }
 const { activeNav, heroNavigation = false, miniHero = false } = Astro.props;
 const links = [
-  { label: "Home", path: "", href: "/" },
+  { label: "Home", path: "", href: "/#hero" },
   ...["Schedule", "Organisers", "Materials"].map(label => ({
     label,
     path: slugifyStr(label),
-    href: `/${slugifyStr(label)}`,
+    href: `/#${slugifyStr(label)}`,
   })),
 ];
 ---
@@ -358,6 +358,42 @@ const links = [
       "click",
       () => {
         setOpen(button.getAttribute("aria-expanded") !== "true");
+      },
+      { signal }
+    );
+    menu.addEventListener(
+      "click",
+      async event => {
+        const link = (event.target as Element).closest<HTMLAnchorElement>(
+          "a[href]"
+        );
+        if (
+          !mobile.matches ||
+          !link ||
+          event.ctrlKey ||
+          event.metaKey ||
+          event.shiftKey ||
+          event.altKey
+        )
+          return;
+        const url = new URL(link.href);
+        if (
+          url.origin !== location.origin ||
+          url.pathname !== location.pathname ||
+          !url.hash
+        )
+          return;
+        const target = document.getElementById(url.hash.slice(1));
+        if (!target) return;
+        event.preventDefault();
+        setOpen(false);
+        await Promise.allSettled(
+          menu.getAnimations().map(animation => animation.finished)
+        );
+        if (signal.aborted) return;
+        if (location.hash !== url.hash) history.pushState(null, "", url.hash);
+        target.scrollIntoView();
+        target.focus({ preventScroll: true });
       },
       { signal }
     );

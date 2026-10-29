@@ -2,10 +2,11 @@
 import Footer from "@components/Footer.astro";
 import Header from "@components/Header.astro";
 import Layout from "@layouts/Layout.astro";
-import Copy from "@components/TutorialOverview.astro";
+import ScheduleSection from "@components/ScheduleSection.astro";
+import OrganisersSection from "@components/OrganisersSection.astro";
+import MaterialsSection from "@components/MaterialsSection.astro";
 import HeroMedia from "@components/HeroMedia.astro";
 import HeroVideoToggle from "@components/HeroVideoToggle.astro";
-import { slugifyStr } from "@utils/slugify";
 import { Parallax } from "@components/Card";
 ---
 
@@ -63,7 +64,7 @@ import { Parallax } from "@components/Card";
         }
       </div>
       <a
-        href="/schedule"
+        href="/#schedule"
         class="hero-cta mt-12 min-w-max rounded-xl bg-skin-accent px-6 py-4 text-sm font-medium text-skin-inverted transition-colors"
       >
         Register now
@@ -71,16 +72,10 @@ import { Parallax } from "@components/Card";
     </div>
   </section>
   <Header slot="header" heroNavigation />
-  <main id="main-content" class="enter-fade-vertical">
-    <section class="overview-section">
-      <div class="landing-overview @container">
-        <div class="overview-row flex flex-col @4xl:flex-row">
-          <div class="min-w-0 flex-1">
-            <Copy />
-          </div>
-        </div>
-      </div>
-    </section>
+  <main id="main-content">
+    <ScheduleSection />
+    <OrganisersSection />
+    <MaterialsSection />
   </main>
 
   <Footer />
@@ -136,51 +131,9 @@ import { Parallax } from "@components/Card";
     );
   }
 
-  .landing-overview {
-    margin-top: 0;
-    padding-top: 0;
-  }
-  .overview-row {
-    gap: var(--bento-gap);
-  }
-  .overview-section,
-  .directory-section {
-    padding: 0;
-  }
-  .conference-sidebar {
-    width: 100%;
-  }
-  .conference-heading,
-  .registration-card {
-    padding: 20px;
-  }
-  .conference-detail {
-    overflow: hidden;
-    padding: 0;
-  }
-  .directory-card {
-    padding: 24px;
-  }
-  @container (min-width: 896px) {
-    .conference-sidebar {
-      width: 480px;
-      flex-shrink: 0;
-    }
-  }
-
   #main-content {
     display: grid;
     gap: var(--bento-gap);
-  }
-  .directory-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--bento-gap);
-  }
-  @media (max-width: 640px) {
-    .directory-grid {
-      grid-template-columns: 1fr;
-    }
   }
 
   @media (max-width: 919px) {

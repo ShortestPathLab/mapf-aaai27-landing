@@ -1,0 +1,68 @@
+---
+import ProgramList from "./ProgramList.astro";
+---
+
+<section
+  id="schedule"
+  class="schedule-page"
+  aria-label="Schedule"
+  tabindex="-1"
+>
+  <div class="schedule-introduction flex h-full flex-col">
+    <section
+      class="surface-panel intro-card flex flex-1 flex-col justify-between"
+    >
+      <div class="sticky top-10"></div>
+      <section class="sticky bottom-10 mt-auto px-0">
+        <h2 class="mb-6 text-4xl">Schedule</h2>
+        <p class="mb-6">
+          This is a half-day programme with short talks, guided experiments and
+          discussion. We start with the fundamentals, then explore the choices
+          that shape a working multi-agent system.
+        </p>
+        <p class="text-sm">
+          The session date, start time and room are to be announced. Times shown
+          are elapsed from the start of the lab.
+        </p>
+      </section>
+    </section>
+  </div>
+  <section class="programme-column" aria-label="Lab programme">
+    <ProgramList />
+  </section>
+</section>
+
+<style>
+  .schedule-page {
+    padding: 0;
+    scroll-margin-top: var(--page-inset);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    gap: var(--bento-gap);
+    align-items: start;
+  }
+  .schedule-introduction {
+    display: grid;
+    gap: var(--bento-gap);
+    position: sticky;
+    top: 24px;
+  }
+  .intro-card {
+    padding: 24px;
+  }
+  p {
+    line-height: 1.7;
+  }
+  .programme-column {
+    padding: 0;
+    min-width: 0;
+  }
+  @media (max-width: 999px) {
+    .schedule-page {
+      grid-template-columns: 1fr;
+    }
+    .schedule-introduction {
+      position: static;
+    }
+  }
+</style>

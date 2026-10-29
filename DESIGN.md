@@ -1,5 +1,7 @@
 # Reference styling
 
+Single-page trial: retain the homepage hero and replace all former below-hero overview copy with Schedule, Organisers and Materials, in that order. Use their existing card compositions and sticky introduction treatments as page sections, with one shared footer at the end. Only the hero uses h1; section titles use h2. Navigation and the hero CTA link to homepage anchors; former content routes redirect to their matching sections. Mobile section navigation closes the animated menu before scrolling. Do not include mini-hero headers or viewport-height filler between sections. This supersedes the separate-page composition.
+
 Light-mode surface saturation: retain the lighter values while adding a little more warmth: canvas `#fefcf9`, muted `#faf6f2`, card `#f5f0eb`, accent `#eddfd8`, raised `#ebe3db`. Muted card and border neutrals follow the same warmer direction. Dark mode is unchanged.
 
 Light-mode surface lightening: use canvas `#fdfcfa`, muted `#f8f6f4`, card `#f3f0ed`, accent `#e9e0db` and raised `#e8e3de`. Lighten muted card and border neutrals proportionally. Preserve warm hues and the relative surface hierarchy; dark-mode values remain unchanged.
