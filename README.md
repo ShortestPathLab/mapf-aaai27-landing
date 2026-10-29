@@ -59,7 +59,9 @@ To replace the video later, run `node scripts/encode-hero.mjs "/path/to/source.m
 
 ## Hosting
 
-No deployment destination is configured and nothing has been published. Set `SITE_URL` to the final absolute URL when building, for example `SITE_URL=https://your-domain.example npm run build`. Without it, canonical URLs and a sitemap are omitted. The site currently assumes hosting at the domain root; update base paths before deploying under a subdirectory.
+The site is published at **https://aaai27.pathfinding.ai** through GitHub Pages. `.github/workflows/deploy.yml` installs dependencies from `bun.lock`, builds and optimises the static site, and deploys `dist/` on pushes to `main`. It can also be run manually from the Actions tab. The `multi-page` branch preserves the previous layout and does not deploy.
+
+GitHub Pages must use **GitHub Actions** as its publishing source, with `aaai27.pathfinding.ai` configured as its custom domain and HTTPS enabled. `public/CNAME` records the domain in the source; Astro defaults to that production URL for canonical links, social previews and the sitemap. `SITE_URL` can override it for another environment. DNS for the subdomain points to `shortestpathlab.github.io`.
 
 ## Sources
 

@@ -12,7 +12,7 @@ import tailwind from "@astrojs/tailwind";
 
 // https://astro.build/config
 export default defineConfig({
-  site: import.meta.env.SITE_URL || undefined,
+  site: import.meta.env.SITE_URL || "https://aaai27.pathfinding.ai",
   integrations: [tailwind(), react(), sitemap(), mdx()],
   markdown: {
     remarkPlugins: [remarkToc, [remarkCollapse, { test: "Table of contents" }]],
