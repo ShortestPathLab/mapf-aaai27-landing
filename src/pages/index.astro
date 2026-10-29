@@ -2,6 +2,7 @@
 import Footer from "@components/Footer.astro";
 import Header from "@components/Header.astro";
 import Layout from "@layouts/Layout.astro";
+import TutorialOverview from "@components/TutorialOverview.astro";
 import ScheduleSection from "@components/ScheduleSection.astro";
 import OrganisersSection from "@components/OrganisersSection.astro";
 import MaterialsSection from "@components/MaterialsSection.astro";
@@ -73,6 +74,7 @@ import { Parallax } from "@components/Card";
   </section>
   <Header slot="header" heroNavigation />
   <main id="main-content">
+    <TutorialOverview />
     <ScheduleSection />
     <OrganisersSection />
     <MaterialsSection />

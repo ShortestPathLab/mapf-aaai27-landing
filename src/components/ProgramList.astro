@@ -72,10 +72,7 @@ import { ParallaxImage } from "./Card";
   }
   .programme-row {
     display: grid;
-    grid-template-columns: calc(5ch + 2 * var(--hero-content-inset)) minmax(
-        0,
-        1fr
-      );
+    grid-template-columns: max-content minmax(0, 1fr);
     gap: var(--bento-gap);
     align-items: stretch;
   }

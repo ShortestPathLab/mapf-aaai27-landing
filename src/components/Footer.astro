@@ -15,9 +15,9 @@ export interface Props {
 <style>
   footer.surface-panel {
     @apply text-sm;
-    width: fit-content;
+    width: 100%;
     max-width: 100%;
-    align-self: flex-end;
+    align-self: stretch;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -26,7 +26,7 @@ export interface Props {
     padding: var(--hero-content-inset);
     margin-top: var(--bento-gap);
     margin-bottom: var(--bento-gap);
-    margin-left: auto;
+    margin-left: 0;
     margin-right: 0;
   }
   .footer-label {
@@ -41,7 +41,7 @@ export interface Props {
     padding: 10px 16px;
     border-radius: 12px;
     background: rgba(var(--color-text-base), 0.08);
-    border: 1px solid rgba(var(--color-text-base), 0.24);
+
     color: rgb(var(--color-text-base));
     font-weight: 500;
     text-decoration: none;

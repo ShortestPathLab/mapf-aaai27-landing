@@ -95,3 +95,9 @@ Theme control: show a sun in dark mode and a moon in light mode to communicate t
 Homepage introduction split: text and MAPF video occupy separate standalone rounded surface cards, with the shared bento gap between them. The transparent intro-row grid keeps equal columns and matched heights above a 760px container width; below that, stack text then video. The video card has no padding and clips its media to its own rounded corners. This supersedes the single joined text/video card.
 
 Experimental single-page card padding: use `--hero-content-inset` (28px mobile / 40px desktop) for every card's content, including introduction cards, organiser profiles, materials, programme copy, date/time surfaces and the footer. Image covers remain edge-to-edge with inset copy. Remove nested introduction-section padding to prevent double insets. Date/time column widths include twice the inset so labels retain room. Buttons keep their own control padding.
+
+Single-page footer width: stretch the footer across the content shell again. Retain the existing identity, conference button, shared hero padding and mobile stacking. This supersedes the compact right-aligned footer width.
+
+Single-page overview trial: restore TutorialOverview directly below the hero and before Schedule, Organisers and Materials. Include the separate introduction text/video cards, the original text-only perspectives and laptop/preparation guidance. Preserve the single-page section anchors and shared footer.
+
+Homepage overview scope: retain only the separate introduction text and MAPF video cards directly below the hero. Remove the perspectives grid and laptop/preparation card from the overview. Schedule, Organisers and Materials still follow.

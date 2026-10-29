@@ -1,24 +1,5 @@
 ---
 import MapfVideo from "./MapfVideo.astro";
-
-const modules = [
-  [
-    "Foundations & lifelong planning",
-    "Start with collision-free paths, then keep agents moving as new tasks arrive. Compare waiting, congestion and throughput in your first experiment.",
-  ],
-  [
-    "From paths to robot motion",
-    "Add turning actions and motion constraints. See why a good plan on a graph can behave differently when robots have to execute it.",
-  ],
-  [
-    "Task assignment & scheduling",
-    "Explore pickup-and-delivery scenarios. Investigate how choosing who does what changes the traffic everyone experiences.",
-  ],
-  [
-    "Execution under uncertainty",
-    "Introduce delays, inspect execution traces, and examine how monitoring and replanning help a system respond.",
-  ],
-];
 ---
 
 <div class="overview-cards">
@@ -41,47 +22,10 @@ const modules = [
       <MapfVideo />
     </div>
   </div>
-
-  <section class="perspectives" aria-label="Tutorial perspectives">
-    <div class="perspectives-grid">
-      {
-        modules.map(([title, description]) => (
-          <article class="surface-panel module-card bg-skin-surface-raised">
-            <h3 class="mb-3 text-2xl">{title}</h3>
-            <p class="leading-relaxed text-skin-base/80">{description}</p>
-          </article>
-        ))
-      }
-    </div>
-  </section>
-
-  <section class="surface-panel materials-card">
-    <h2 class="mb-5 text-2xl">Bring your curiosity and a laptop</h2>
-    <div class="prose max-w-prose">
-      <p>
-        The lab is open to researchers, students and practitioners in planning,
-        search, robotics, multi-agent systems and optimisation. You don’t need
-        prior MAPF experience. Basic AI knowledge and some familiarity with
-        programming or the command line will help.
-      </p>
-      <p>
-        We’ll provide prepared scenarios and setup instructions before the
-        session, with optional code-level extensions for participants who want
-        to go further.
-      </p>
-      <a href="/materials"
-        >Find tutorial materials <span
-          class="material-symbols-outlined inline-icon"
-          aria-hidden="true">arrow_forward</span
-        ></a
-      >
-    </div>
-  </section>
 </div>
 
 <style>
-  .overview-cards,
-  .perspectives {
+  .overview-cards {
     display: grid;
     gap: var(--bento-gap);
   }
@@ -114,33 +58,10 @@ const modules = [
       aspect-ratio: auto;
     }
   }
-  .perspectives {
-    padding: 0;
-  }
-  .section-label {
-    padding: 20px 24px;
-    font-size: 1.5rem;
-  }
-  .perspectives-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: var(--bento-gap);
-  }
-  .module-card {
-    padding: var(--hero-content-inset);
-  }
-  .section-marker {
-    background: rgb(var(--color-flower));
-  }
   .prose > :first-child {
     margin-top: 0;
   }
   .prose > :last-child {
     margin-bottom: 0;
-  }
-  @media (max-width: 640px) {
-    .perspectives-grid {
-      grid-template-columns: 1fr;
-    }
   }
 </style>

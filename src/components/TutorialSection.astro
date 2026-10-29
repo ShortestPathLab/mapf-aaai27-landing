@@ -8,7 +8,7 @@ const { id, title } = Astro.props;
 
 <section id={id} class="tutorial-section" aria-label={title} tabindex="-1">
   <div class="bento-introduction">
-    <section class="surface-panel bento-title-card">
+    <section class="surface-panel bento-title-card bg-skin-surface-raised">
       <div class="bento-title-content"><slot name="introduction" /></div>
     </section>
   </div>
@@ -24,10 +24,10 @@ const { id, title } = Astro.props;
     scroll-margin-top: var(--page-inset);
     align-items: stretch;
   }
-  .bento-introduction,
   .bento-title-content :global(section) {
     padding: 0;
   }
+  .bento-introduction,
   .bento-content {
     display: grid;
     gap: var(--bento-gap);
