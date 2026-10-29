@@ -25,6 +25,9 @@ const { id, title } = Astro.props;
     align-items: stretch;
   }
   .bento-introduction,
+  .bento-title-content :global(section) {
+    padding: 0;
+  }
   .bento-content {
     display: grid;
     gap: var(--bento-gap);
@@ -50,7 +53,7 @@ const { id, title } = Astro.props;
     container-type: inline-size;
   }
   .tutorial-section :global(.surface-panel) {
-    padding: 24px;
+    padding: var(--hero-content-inset);
   }
   .tutorial-section :global(p) {
     line-height: 1.7;

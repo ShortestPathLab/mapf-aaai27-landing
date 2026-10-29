@@ -52,13 +52,15 @@ import { ParallaxImage } from "./Card";
 <style>
   .programme {
     display: grid;
-    grid-template-columns: 112px minmax(0, 1fr);
+    grid-template-columns: calc(7ch + 2 * var(--hero-content-inset)) minmax(
+        0,
+        1fr
+      );
     gap: var(--bento-gap);
     align-items: stretch;
   }
   .date-column {
-    padding: 16px;
-    padding-right: 32px;
+    padding: var(--hero-content-inset);
   }
   .date-label {
     position: sticky;
@@ -70,12 +72,15 @@ import { ParallaxImage } from "./Card";
   }
   .programme-row {
     display: grid;
-    grid-template-columns: 104px minmax(0, 1fr);
+    grid-template-columns: calc(5ch + 2 * var(--hero-content-inset)) minmax(
+        0,
+        1fr
+      );
     gap: var(--bento-gap);
     align-items: stretch;
   }
   .time-card {
-    padding: 16px 12px;
+    padding: var(--hero-content-inset);
     text-align: center;
   }
   .time-label {
@@ -103,7 +108,7 @@ import { ParallaxImage } from "./Card";
     border-radius: 16px 16px 8px 8px;
   }
   .programme-copy {
-    padding: 24px;
+    padding: var(--hero-content-inset);
   }
   .programme-enter {
     animation: enter-fade-vertical 0.55s cubic-bezier(0.22, 1, 0.36, 1);
