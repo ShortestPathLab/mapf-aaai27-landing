@@ -17,13 +17,13 @@ The Vite dependency cache is isolated in `.astro/vite`, and the dev server allow
 - `src/components/TutorialOverview.astro`: introduction and four modules.
 - `src/components/MapfVideo.astro`: introductory MAPF video and playback control (`public/videos/mapf.mp4`).
 - `src/tutorial.ts`: draft schedule (elapsed times; 4 hours including a 30-minute break), cover image paths, crop offsets and surface tints (`imageTint`).
-- `src/content/team/*.yaml`: organiser biographies and placeholders.
+- `src/content/team/*.yaml`: organiser biographies.
 - `src/pages/organisers.astro`: organiser list and contact placeholder.
 - `src/pages/materials.astro`: resource cards (add each `href` when released) and setup guidance. `/preparation` redirects here.
 - `src/layouts/BentoLayout.astro`: shared full-width layout for Organisers and Materials, with standalone cards on the canvas.
 - `src/config.ts`: site title, description and social metadata.
 
-Still needed: tutorial date, start time, room, contact, materials repository and setup instructions; Yue Zhang and Jingjin Yu biographies. Confirm the draft agenda before publishing.
+Still needed: tutorial date, start time, room, contact, materials repository and setup instructions. Confirm the draft agenda before publishing.
 
 Schedule covers use the four selected images in `output/event-covers/definitive-set`, on sessions 2, 4, 6 and 8. Compressed 1440px WebP copies live in `public/images/event-covers`; original PNGs are unchanged. The image-above-text treatment and desktop scroll parallax reuse the OPSS25 `ParallaxImage` component, with static covers on mobile and for reduced motion.
 
@@ -69,7 +69,7 @@ GitHub Pages must use **GitHub Actions** as its publishing source, with `aaai27.
 - Previous hero image supplied by the user: https://images.unsplash.com/photo-1650473395434-8674d953ef2f?q=80&w=2532&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D — retained locally as `public/images/abstract-hero.jpg`.
 
 - User-provided AAAI27_Tutorial_Proposal.pdf (read locally; not distributed).
-- User-provided Kevin Zheng biography, preserved verbatim.
+- User-provided organiser biographies, preserved verbatim apart from adding "the" before "2025 Optimisation and Planning Summer School". Jingjin Yu portrait from user-supplied `2026-siemens.png`, cropped square to a 192px WebP.
 - https://aaai.org/conference/aaai/aaai-27/ — conference dates and city, checked 28 October 2026.
 - https://github.com/MAPF-Competition/Start-Kit
 - https://github.com/MAPF-Competition/PlanViz
